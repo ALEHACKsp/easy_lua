@@ -3,7 +3,7 @@
 /// Created:            18.02.2017
 /// 
 /// Last modified by:   ReactiioN
-/// Last modified on:   07.04.2017
+/// Last modified on:   06.07.2017
 ///-------------------------------------------------------------------------------------------------
 ///     Copyright (c) ReactiioN <https://reactiion.pw>. All rights reserved.
 ///-------------------------------------------------------------------------------------------------
@@ -39,331 +39,764 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
 ///-------------------------------------------------------------------------------------------------
+#pragma once
 #ifndef REACTIION_EASY_LUA_HPP
 #define REACTIION_EASY_LUA_HPP
-
+/// <reference>
+/// https://www.lua.org/manual/5.3/
+/// </reference>
 #include <lua.hpp>
+/// <reference>
+/// http://en.cppreference.com/w/cpp/header/string
+/// </reference>
 #include <string>
 
 namespace lua {
-/// Pathname of the lua script directory.
-extern std::string lua_script_directory;
+
+/// <summary> 
+/// The supported version number. 
+/// </summary>
+constexpr double supported_version_number = 503;
+/// <summary> 
+/// The major version. 
+/// </summary>
+constexpr char*  major_version            = "5";
+/// <summary> 
+/// The minor version. 
+/// </summary>
+constexpr char*  minor_version            = "3";
+/// <summary> 
+/// The release version. 
+/// </summary>
+constexpr char*  release_version          = "3";
 
 ///-------------------------------------------------------------------------------------------------
-/// Query if 'l' is bool.
+/// <summary> Query if 'l' is number. </summary>
 ///
-/// @author ReactiioN
-/// @date 22.12.2016
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
 ///
-/// @param [in,out] l     If non-null, the lua_State to process.
-/// @param          stack The stack.
+/// <param name="l">        [in,out] If non-null, a lua_State to process. </param>
+/// <param name="stackpos"> The stackpos. </param>
 ///
-/// @return True if bool, false if not.
+/// <returns> True if number, false if not. </returns>
 ///-------------------------------------------------------------------------------------------------
-inline bool is_bool( lua_State* l, const int32_t stack )
+inline bool is_number(
+    lua_State*    l,
+    const int32_t stackpos )
 {
-    return l ? lua_isboolean( l, stack ) : false;
+    return l == nullptr
+        ? nullptr
+        : lua_isnumber( l, stackpos ) == 1;
 }
 
 ///-------------------------------------------------------------------------------------------------
-/// Query if 'l' is number.
+/// <summary> Query if 'l' is integer. </summary>
 ///
-/// @author ReactiioN
-/// @date 22.12.2016
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
 ///
-/// @param [in,out] l     If non-null, the lua_State to process.
-/// @param          stack The stack.
+/// <param name="l">        [in,out] If non-null, a lua_State to process. </param>
+/// <param name="stackpos"> The stackpos. </param>
 ///
-/// @return True if number, false if not.
+/// <returns> True if integer, false if not. </returns>
 ///-------------------------------------------------------------------------------------------------
-inline bool is_number( lua_State* l, const int32_t stack )
+inline bool is_integer(
+    lua_State*    l,
+    const int32_t stackpos )
 {
-    return l ? lua_isnumber( l, stack ) > 0 : false;
+    return l == nullptr
+        ? nullptr
+        : lua_isinteger( l, stackpos ) == 1;
 }
 
 ///-------------------------------------------------------------------------------------------------
-/// Query if 'l' is integer.
+/// <summary> Query if 'l' is bool. </summary>
 ///
-/// @author ReactiioN
-/// @date 22.12.2016
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
 ///
-/// @param [in,out] l     If non-null, the lua_State to process.
-/// @param          stack The stack.
+/// <param name="l">        [in,out] If non-null, a lua_State to process. </param>
+/// <param name="stackpos"> The stackpos. </param>
 ///
-/// @return True if integer, false if not.
+/// <returns> True if bool, false if not. </returns>
 ///-------------------------------------------------------------------------------------------------
-inline bool is_integer( lua_State* l, const int32_t stack )
+inline bool is_bool(
+    lua_State*    l,
+    const int32_t stackpos )
 {
-    return l ? lua_isinteger( l, stack ) > 0 : false;
+    return l == nullptr
+        ? nullptr
+        : lua_isboolean( l, stackpos );
 }
 
 ///-------------------------------------------------------------------------------------------------
-/// Query if 'l' is string.
+/// <summary> Query if 'l' is string. </summary>
 ///
-/// @author ReactiioN
-/// @date 22.12.2016
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
 ///
-/// @param [in,out] l     If non-null, the lua_State to process.
-/// @param          stack The stack.
+/// <param name="l">        [in,out] If non-null, a lua_State to process. </param>
+/// <param name="stackpos"> The stackpos. </param>
 ///
-/// @return True if string, false if not.
+/// <returns> True if string, false if not. </returns>
 ///-------------------------------------------------------------------------------------------------
-inline bool is_string( lua_State* l, const int32_t stack )
+inline bool is_string(
+    lua_State*    l,
+    const int32_t stackpos )
 {
-    return l ? lua_isstring( l, stack ) > 0 : false;
+    return l == nullptr
+        ? nullptr
+        : lua_isstring( l, stackpos ) == 1;
 }
 
 ///-------------------------------------------------------------------------------------------------
-/// Query if 'l' is nil.
+/// <summary> Query if 'l' is userdata. </summary>
 ///
-/// @author ReactiioN
-/// @date 22.12.2016
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
 ///
-/// @param [in,out] l     If non-null, the lua_State to process.
-/// @param          stack The stack.
+/// <param name="l">        [in,out] If non-null, a lua_State to process. </param>
+/// <param name="stackpos"> The stackpos. </param>
 ///
-/// @return True if nil, false if not.
+/// <returns> True if userdata, false if not. </returns>
 ///-------------------------------------------------------------------------------------------------
-inline bool is_nil( lua_State* l, const int32_t stack )
+inline bool is_userdata(
+    lua_State*    l,
+    const int32_t stackpos )
 {
-    return l ? lua_isnil( l, stack ) : false;
+    return l == nullptr
+        ? nullptr
+        : lua_isuserdata( l, stackpos ) == 1;
 }
 
 ///-------------------------------------------------------------------------------------------------
-/// Query if 'l' is user data.
+/// <summary> Query if 'l' is nil. </summary>
 ///
-/// @author ReactiioN
-/// @date 22.12.2016
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
 ///
-/// @param [in,out] l     If non-null, the lua_State to process.
-/// @param          stack The stack.
+/// <param name="l">        [in,out] If non-null, a lua_State to process. </param>
+/// <param name="stackpos"> The stackpos. </param>
 ///
-/// @return True if user data, false if not.
+/// <returns> True if nil, false if not. </returns>
 ///-------------------------------------------------------------------------------------------------
-inline bool is_user_data( lua_State* l, const int32_t stack )
+inline bool is_nil(
+    lua_State*    l,
+    const int32_t stackpos )
 {
-    return l ? lua_isuserdata( l, stack ) > 0 : false;
+    return l == nullptr
+        ? false
+        : lua_isnil( l, stackpos );
 }
 
 ///-------------------------------------------------------------------------------------------------
-/// Pushes a nil.
+/// <summary> Gets a number. </summary>
 ///
-/// @author ReactiioN
-/// @date 22.12.2016
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
 ///
-/// @tparam N Type of the n.
-/// @param [in,out] l If non-null, the lua_State to process.
+/// <typeparam name="T"> Generic type parameter. </typeparam>
+/// <param name="l">             [in,out] If non-null, a lua_State to process. </param>
+/// <param name="stackpos">      The stackpos. </param>
+/// <param name="default_value"> The default value. </param>
+/// <param name="pop_value">     (Optional) True to pop value. </param>
 ///
-/// @return An int32_t.
+/// <returns> The number. </returns>
 ///-------------------------------------------------------------------------------------------------
-template<int32_t N = 1>
-static int32_t push_nil( lua_State* l )
-{
-    if( !l ) {
-        return 0;
-    }
-    lua_pushnil( l );
-    return N;
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Pushes a bool.
-///
-/// @author ReactiioN
-/// @date 22.12.2016
-///
-/// @tparam N Type of the n.
-/// @param [in,out] l     If non-null, the lua_State to process.
-/// @param          value The value.
-///
-/// @return An int32_t.
-///-------------------------------------------------------------------------------------------------
-template<int32_t N = 1>
-static int32_t push_bool( lua_State* l, const bool value )
-{
-    if( !l ) {
-        return 0;
-    }
-    lua_pushboolean( l, value ? 1 : 0 );
-    return N;
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Pushes a number.
-///
-/// @author ReactiioN
-/// @date 22.12.2016
-///
-/// @tparam N Type of the n.
-/// @tparam T Generic type parameter.
-/// @param [in,out] l     If non-null, the lua_State to process.
-/// @param          value The value.
-///
-/// @return An int32_t.
-///-------------------------------------------------------------------------------------------------
-template<int32_t N = 1, typename T = float>
-static int32_t push_number( lua_State* l, const T value )
+template<typename T=lua_Number>
+T get_number(
+    lua_State*    l,
+    const int32_t stackpos,
+    const T       default_value,
+    const bool    pop_value = false )
 {
     static_assert( std::is_arithmetic<T>::value, "Type T has to be arithmetic" );
-    if( !l ) {
-        return 0;
-    }
-    lua_pushnumber( l, static_cast<lua_Number>( value ) );
-    return N;
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Pushes an int.
-///
-/// @author ReactiioN
-/// @date 03.01.2017
-///
-/// @tparam N Type of the n.
-/// @tparam T Generic type parameter.
-/// @param [in,out] l     If non-null, the lua_State to process.
-/// @param          value The value.
-///
-/// @return An int32_t.
-///-------------------------------------------------------------------------------------------------
-template<int32_t N = 1, typename T = int32_t>
-static int32_t push_int( lua_State* l, const T value )
-{
-    static_assert( std::is_integral<T>::value, "Type T has to be integral" );
-    if( !l ) {
-        return 0;
-    }
-    lua_pushinteger( l, static_cast<lua_Integer>( value ) );
-    return N;
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Pushes a string.
-///
-/// @author ReactiioN
-/// @date 22.12.2016
-///
-/// @tparam N Type of the n.
-/// @param [in,out] l     If non-null, the lua_State to process.
-/// @param          value The value.
-///
-/// @return An int32_t.
-///-------------------------------------------------------------------------------------------------
-template<int32_t N = 1>
-static int32_t push_string( lua_State* l, const std::string& value )
-{
-    if( !l ) {
-        return 0;
-    }
-    lua_pushstring( l, value.c_str() );
-    return N;
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Gets an int.
-///
-/// @author ReactiioN
-/// @date 22.12.2016
-///
-/// @tparam T Generic type parameter.
-/// @param [in,out] l     If non-null, the lua_State to process.
-/// @param          stack The stack.
-///
-/// @return The int.
-///-------------------------------------------------------------------------------------------------
-template<typename T = int32_t>
-static T get_int( lua_State* l, const int32_t stack, const T default_value = static_cast<T>( 0 ) )
-{
-    static_assert( std::is_integral<T>::value, "Type T has to be integral" );
-    return l && is_integer( l, stack )
-        ? static_cast<T>( lua_tointeger( l, stack ) )
-        : default_value;
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Gets a float.
-///
-/// @author ReactiioN
-/// @date 22.12.2016
-///
-/// @tparam T Generic type parameter.
-/// @param [in,out] l             If non-null, the lua_State to process.
-/// @param          stack         The stack.
-/// @param          default_value (Optional) The default value.
-///
-/// @return The float.
-///-------------------------------------------------------------------------------------------------
-template<typename T = float>
-static T get_float( lua_State* l, const int32_t stack, const T default_value = static_cast<T>( 0 ) )
-{
-    static_assert( std::is_arithmetic<T>::value, "Type T has to be arithmetic" );
-    return l && ( is_integer( l, stack ) || is_number( l, stack ) )
-        ? static_cast<T>( lua_tonumber( l, stack ) )
-        : default_value;
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Gets a bool.
-///
-/// @author ReactiioN
-/// @date 22.12.2016
-///
-/// @param [in,out] l             If non-null, the lua_State to process.
-/// @param          stack         The stack.
-/// @param          default_value The default value.
-///
-/// @return True if it succeeds, false if it fails.
-///-------------------------------------------------------------------------------------------------
-inline bool get_bool( lua_State* l, const int32_t stack, const bool default_value = false )
-{
-    if( !l ) {
-        return default_value;
-    }
-    if( is_bool( l, stack ) ) {
-        return lua_toboolean( l, stack ) == 1;
-    }
-    if( is_number( l, stack ) || is_integer( l, stack ) ) {
-        return static_cast<int32_t>( lua_tonumber( l, stack ) ) == 1;
+    if( is_number( l, stackpos ) ) {
+        const auto v = lua_tonumber(
+            const_cast<lua_State*>( l ),
+            stackpos
+        );
+        if( pop_value ) {
+            lua_pop( l, 1 );
+        }
+        return static_cast<T>( v );
     }
     return default_value;
 }
 
 ///-------------------------------------------------------------------------------------------------
-/// Gets a string.
+/// <summary> Gets an integer. </summary>
 ///
-/// @author ReactiioN
-/// @date 22.12.2016
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
 ///
-/// @param [in,out] l     If non-null, the lua_State to process.
-/// @param          stack The stack.
+/// <typeparam name="T"> Generic type parameter. </typeparam>
+/// <param name="l">             [in,out] If non-null, a lua_State to process. </param>
+/// <param name="stackpos">      The stackpos. </param>
+/// <param name="default_value"> The default value. </param>
+/// <param name="pop_value">     (Optional) True to pop value. </param>
 ///
-/// @return Null if it fails, else the string.
+/// <returns> The integer. </returns>
 ///-------------------------------------------------------------------------------------------------
-inline const char* get_string( lua_State* l, const int32_t stack )
+template<typename T=lua_Integer>
+T get_integer(
+    lua_State*    l,
+    const int32_t stackpos,
+    const T       default_value,
+    const bool    pop_value = false )
 {
-    return l ? lua_tostring( l, stack ) : "";
+    static_assert( std::is_arithmetic<T>::value, "Type T has to be arithmetic" );
+    if( is_integer( l, stackpos ) ) {
+        const auto v = lua_tonumber(
+            const_cast<lua_State*>( l ),
+            stackpos
+        );
+        if( pop_value ) {
+            lua_pop( l, 1 );
+        }
+        return static_cast<T>( v );
+    }
+    return default_value;
 }
 
 ///-------------------------------------------------------------------------------------------------
-/// Executes.
+/// <summary> Gets a string. </summary>
 ///
-/// @author ReactiioN
-/// @date 22.12.2016
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
 ///
-/// @param [in,out] l           If non-null, the lua_State to process.
-/// @param          data        The data.
-/// @param          from_memory from memory.
+/// <param name="l">         [in,out] If non-null, a lua_State to process. </param>
+/// <param name="stackpos">  The stackpos. </param>
+/// <param name="pop_value"> (Optional) True to pop value. </param>
 ///
-/// @return True if it succeeds, false if it fails.
+/// <returns> Null if it fails, else the string. </returns>
 ///-------------------------------------------------------------------------------------------------
-inline bool execute( lua_State* l, const std::string& data, const bool from_memory )
+inline const char* get_string(
+    lua_State*    l,
+    const int32_t stackpos,
+    const bool    pop_value = false )
+{
+    if( is_string( l, stackpos ) ) {
+        const auto v = lua_tostring( l, stackpos );
+        if( pop_value ) {
+            lua_pop( l, 1 );
+        }
+        return v;
+    }
+    return "";
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Gets a bool. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <param name="l">             [in,out] If non-null, a lua_State to process. </param>
+/// <param name="stackpos">      The stackpos. </param>
+/// <param name="default_value"> True to default value. </param>
+/// <param name="pop_value">     (Optional) True to pop value. </param>
+///
+/// <returns> True if it succeeds, false if it fails. </returns>
+///-------------------------------------------------------------------------------------------------
+inline bool get_bool(
+    lua_State*    l,
+    const int32_t stackpos,
+    const bool    default_value,
+    const bool    pop_value = false )
+{
+    if( !l ) {
+        return default_value;
+    }
+    if( is_number( l, stackpos ) ) {
+        return get_number(
+            l,
+            stackpos,
+            static_cast<lua_Number>( 0 ),
+            pop_value
+        ) >= 1;
+    }
+    if( is_integer( l, stackpos ) ) {
+        return get_integer(
+            l,
+            stackpos,
+            static_cast<lua_Integer>( 0 ),
+            pop_value
+        ) >= 1;
+    }
+        
+    const auto v = lua_toboolean( l, stackpos ) == 1;
+    if( pop_value ) {
+        lua_pop( l, 1 );
+    }
+
+    return v;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Gets an userdata. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <typeparam name="T"> Generic type parameter. </typeparam>
+/// <param name="l">         [in,out] If non-null, a lua_State to process. </param>
+/// <param name="stackpos">  The stackpos. </param>
+/// <param name="pop_value"> (Optional) True to pop value. </param>
+///
+/// <returns> Null if it fails, else the userdata. </returns>
+///-------------------------------------------------------------------------------------------------
+template<typename T>
+T* get_userdata(
+    lua_State* l,
+    const int32_t stackpos,
+    const bool    pop_value = false )
+{
+    if( is_userdata( l, stackpos ) ) {
+        auto v = lua_touserdata( l, stackpos );
+        if( pop_value ) {
+            lua_pop( l, 1 );
+        }
+        return reinterpret_cast<T*>( v );
+    }
+    return nullptr;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Pushes a bool. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <typeparam name="N"> Type of the n. </typeparam>
+/// <param name="l">     [in,out] If non-null, a lua_State to process. </param>
+/// <param name="value"> True to value. </param>
+///
+/// <returns> An int32_t. </returns>
+///-------------------------------------------------------------------------------------------------
+template<int32_t N=1>
+int32_t push_bool(
+    lua_State* l,
+    const bool value )
+{
+    if( l ) {
+        lua_pushboolean( l, value ? 1 : 0 );
+    }
+    return l != nullptr
+        ? N
+        : 0;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Pushes a number. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <typeparam name="N"> Type of the n. </typeparam>
+/// <typeparam name="T"> Generic type parameter. </typeparam>
+/// <param name="l">     [in,out] If non-null, a lua_State to process. </param>
+/// <param name="value"> The value. </param>
+///
+/// <returns> An int32_t. </returns>
+///-------------------------------------------------------------------------------------------------
+template<int32_t N = 1, typename T>
+int32_t push_number(
+    lua_State* l,
+    const T    value )
+{
+    static_assert( std::is_arithmetic<T>::value, "Type T has to be arithmetic" );
+    if( l ) {
+        lua_pushnumber( l, static_cast<lua_Number>( value ) );
+    }
+    return l != nullptr
+        ? N
+        : 0;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Pushes an integer. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <typeparam name="N"> Type of the n. </typeparam>
+/// <typeparam name="T"> Generic type parameter. </typeparam>
+/// <param name="l">     [in,out] If non-null, a lua_State to process. </param>
+/// <param name="value"> The value. </param>
+///
+/// <returns> An int32_t. </returns>
+///-------------------------------------------------------------------------------------------------
+template<int32_t N = 1, typename T>
+int32_t push_integer(
+    lua_State* l,
+    const T    value )
+{
+    static_assert( std::is_arithmetic<T>::value, "Type T has to be arithmetic" );
+    if( l ) {
+        lua_pushinteger( l, static_cast<lua_Integer>( value ) );
+    }
+    return l != nullptr
+        ? N
+        : 0;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Pushes a string. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <typeparam name="N"> Type of the n. </typeparam>
+/// <param name="l">     [in,out] If non-null, a lua_State to process. </param>
+/// <param name="value"> The value. </param>
+///
+/// <returns> An int32_t. </returns>
+///-------------------------------------------------------------------------------------------------
+template<int32_t N = 1>
+int32_t push_string(
+    lua_State*         l,
+    const std::string& value )
+{
+    if( l ) {
+        lua_pushstring( l, value.data() );
+    }
+    return l != nullptr
+        ? N
+        : 0;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Creates an userdata. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <typeparam name="T"> Generic type parameter. </typeparam>
+/// <param name="l"> [in,out] If non-null, a lua_State to process. </param>
+///
+/// <returns> Null if it fails, else the new userdata. </returns>
+///-------------------------------------------------------------------------------------------------
+template<typename T>
+T** create_userdata( lua_State* l )
+{
+    return l == nullptr
+        ? nullptr
+        : reinterpret_cast<T**>(
+            lua_newuserdata( l, sizeof( T* ) )
+        );
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Destroys the userdata. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <typeparam name="T"> Generic type parameter. </typeparam>
+/// <param name="l">        [in,out] If non-null, a lua_State to process. </param>
+/// <param name="stackpos"> The stackpos. </param>
+/// <param name="name">     The name. </param>
+///
+/// <returns> An int32_t. </returns>
+///-------------------------------------------------------------------------------------------------
+template<typename T>
+int32_t destroy_userdata(
+    lua_State*         l,
+    const int32_t      stackpos,
+    const std::string& name )
+{
+    if( is_userdata( l, stackpos ) && !name.empty() ) {
+        auto userdata = get_userdata<T>( l, stackpos );
+        if( userdata ) {
+            delete userdata;
+            userdata = nullptr;
+        }
+    }
+    return 0;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Pushes an userdata. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <typeparam name="N"> Type of the n. </typeparam>
+/// <typeparam name="T"> Generic type parameter. </typeparam>
+/// <param name="l">        [in,out] If non-null, a lua_State to process. </param>
+/// <param name="name">     The name. </param>
+/// <param name="userdata"> [in,out] If non-null, the userdata. </param>
+///
+/// <returns> An int32_t. </returns>
+///-------------------------------------------------------------------------------------------------
+template<int32_t N = 1, typename T>
+int32_t push_userdata(
+    lua_State*         l,
+    const std::string& name,
+    T*                 userdata )
+{
+    if( l && !name.empty() && userdata ) {
+        auto created_data = create_userdata<T>( l );
+        if( created_data ) {
+            *created_data = userdata;
+            luaL_getmetatable( l, name.c_str() );
+            lua_setmetatable( l, -2 );
+            return N;
+        }
+    }
+    return 0;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Pushes a nil. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <typeparam name="N"> Type of the n. </typeparam>
+/// <param name="l"> [in,out] If non-null, a lua_State to process. </param>
+///
+/// <returns> An int32_t. </returns>
+///-------------------------------------------------------------------------------------------------
+template<int32_t N = 1>
+int32_t push_nil( lua_State* l )
+{
+    if( l ) {
+        lua_pushnil( l );
+    }
+    return l != nullptr
+        ? N
+        : 0;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Gets a global. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <param name="l">    [in,out] If non-null, a lua_State to process. </param>
+/// <param name="name"> The name. </param>
+///
+/// <returns> True if it succeeds, false if it fails. </returns>
+///-------------------------------------------------------------------------------------------------
+inline bool get_global(
+    lua_State*         l,
+    const std::string& name )
+{
+    if( l && !name.empty() ) {
+        lua_getglobal( l, name.data() );
+        return true;
+    }
+    return false;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Sets a global. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <param name="l">    [in,out] If non-null, a lua_State to process. </param>
+/// <param name="name"> The name. </param>
+///
+/// <returns> True if it succeeds, false if it fails. </returns>
+///-------------------------------------------------------------------------------------------------
+inline bool set_global(
+    lua_State*         l,
+    const std::string& name )
+{
+    if( l && !name.empty() ) {
+        lua_setglobal( l, name.data() );
+        return true;
+    }
+    return false;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Export function. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <param name="l">    [in,out] If non-null, a lua_State to process. </param>
+/// <param name="name"> The name. </param>
+/// <param name="fn">   The function. </param>
+///-------------------------------------------------------------------------------------------------
+inline void export_function(
+    lua_State*         l,
+    const std::string& name,
+    lua_CFunction      fn )
+{
+    if( l && !name.empty() && fn ) {
+        lua_register( l, name.data(), fn );
+    }
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Export class. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <param name="l">             [in,out] If non-null, a lua_State to process. </param>
+/// <param name="global_name">   Name of the global. </param>
+/// <param name="userdata_name"> Name of the userdata. </param>
+/// <param name="functions">     The functions. </param>
+///-------------------------------------------------------------------------------------------------
+inline void export_class(
+    lua_State* l,
+    const std::string& global_name,
+    const std::string& userdata_name,
+    const luaL_Reg*    functions )
+{
+    if( l && !global_name.empty() && !userdata_name.empty() && functions ) {
+        luaL_newmetatable( l, userdata_name.data() );
+        luaL_setfuncs( l, functions, 0 );
+        lua_pushvalue( l, -1 );
+        lua_setfield( l, -1, "__index" );
+        lua_setglobal( l, global_name.data() );
+    }
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Sets global bool. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <param name="l">     [in,out] If non-null, a lua_State to process. </param>
+/// <param name="name">  The name. </param>
+/// <param name="value"> True to value. </param>
+///-------------------------------------------------------------------------------------------------
+inline void set_global_bool(
+    lua_State*         l,
+    const std::string& name,
+    const bool         value )
+{
+    if( l && !name.empty() ) {
+        push_bool( l, value );
+        set_global( l, name );
+    }
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Sets global number. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <typeparam name="T"> Generic type parameter. </typeparam>
+/// <param name="l">     [in,out] If non-null, a lua_State to process. </param>
+/// <param name="name">  The name. </param>
+/// <param name="value"> The value. </param>
+///-------------------------------------------------------------------------------------------------
+template<typename T>
+void set_global_number(
+    lua_State*         l,
+    const std::string& name,
+    const T            value )
+{
+    if( l && !name.empty() ) {
+        push_number( l, value );
+        set_global( l, name );
+    }
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Sets global integer. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <typeparam name="T"> Generic type parameter. </typeparam>
+/// <param name="l">     [in,out] If non-null, a lua_State to process. </param>
+/// <param name="name">  The name. </param>
+/// <param name="value"> The value. </param>
+///-------------------------------------------------------------------------------------------------
+template<typename T>
+void set_global_integer(
+    lua_State*         l,
+    const std::string& name,
+    const T            value )
+{
+    if( l && !name.empty() ) {
+        push_integer( l, value );
+        set_global( l, name );
+    }
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Sets global string. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <param name="l">     [in,out] If non-null, a lua_State to process. </param>
+/// <param name="name">  The name. </param>
+/// <param name="value"> The value. </param>
+///-------------------------------------------------------------------------------------------------
+inline void set_global_string(
+    lua_State*         l,
+    const std::string& name,
+    const std::string& value )
+{
+    if( l && !name.empty() && !value.empty() ) {
+        push_string( l, value );
+        set_global( l, name );
+    }
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Gets the stack count. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <param name="l"> [in,out] If non-null, a lua_State to process. </param>
+///
+/// <returns> An int32_t. </returns>
+///-------------------------------------------------------------------------------------------------
+inline int32_t top( lua_State* l )
+{
+    return l ? lua_gettop( l ) : -1;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Compares the stack count. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <typeparam name="T"> Generic type parameter. </typeparam>
+/// <param name="l">      [in,out] If non-null, a lua_State to process. </param>
+/// <param name="needed"> The needed. </param>
+///
+/// <returns> True if it succeeds, false if it fails. </returns>
+///-------------------------------------------------------------------------------------------------
+template<typename T>
+bool top( lua_State* l, const T needed )
+{
+    static_assert( std::is_integral<T>::value, "Type T has to be integral" );
+    return static_cast<T>( top( l ) ) == needed;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Compares the stack count. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <typeparam name="T"> Generic type parameter. </typeparam>
+/// <param name="l">    [in,out] If non-null, a lua_State to process. </param>
+/// <param name="mins"> The mins. </param>
+/// <param name="maxs"> The maxs. </param>
+///
+/// <returns> True if it succeeds, false if it fails. </returns>
+///-------------------------------------------------------------------------------------------------
+template<typename T>
+bool top( lua_State* l, const T mins, const T maxs )
+{
+    static_assert( std::is_integral<T>::value, "Type T has to be integral" );
+    const auto t = static_cast<T>( top( l ) );
+    return t >= mins && t <= maxs;
+}
+
+///-------------------------------------------------------------------------------------------------
+/// <summary> Executes. </summary>
+///
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
+///
+/// <param name="l">           [in,out] If non-null, a lua_State to process. </param>
+/// <param name="data">        The data. </param>
+/// <param name="from_memory"> (Optional) True to from memory. </param>
+///
+/// <returns> True if it succeeds, false if it fails. </returns>
+///-------------------------------------------------------------------------------------------------
+inline bool execute(
+    lua_State*         l,
+    const std::string& data,
+    const bool         from_memory = false )
 {
     if( !l || data.empty() ) {
         return false;
     }
     if( !from_memory ) {
-        return !luaL_dofile( l, data.c_str() );
+        return !luaL_dofile( l, data.data() );
     }
-    if( luaL_loadstring( l, data.c_str() ) > 0 ) {
+    if( luaL_loadstring( l, data.data() ) > 0 ) {
         return false;
     }
     if( lua_pcall( l, 0, 0, 0 ) > 0 ) {
@@ -374,345 +807,90 @@ inline bool execute( lua_State* l, const std::string& data, const bool from_memo
 }
 
 ///-------------------------------------------------------------------------------------------------
-/// Tops the given l.
+/// <summary> Gets the directory. </summary>
 ///
-/// @author ReactiioN
-/// @date 22.12.2016
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
 ///
-/// @param [in,out] l If non-null, the lua_State to process.
-///
-/// @return An int32_t.
+/// <returns> The directory. </returns>
 ///-------------------------------------------------------------------------------------------------
-inline int32_t top( lua_State* l )
+inline std::string& get_directory()
 {
-    return l ? lua_gettop( l ) : -1;
+    static std::string dir;
+    return dir;
 }
 
 ///-------------------------------------------------------------------------------------------------
-/// Check top.
+/// <summary> Initializes a new lua object. </summary>
 ///
-/// @author ReactiioN
-/// @date 22.12.2016
+/// <remarks> ReactiioN, 06.07.2017. </remarks>
 ///
-/// @tparam T Generic type parameter.
-/// @param [in,out] l         If non-null, the lua_State to process.
-/// @param          get_check The get check.
+/// <param name="include_directory"> (Optional) Pathname of the include directory. </param>
 ///
-/// @return True if it succeeds, false if it fails.
+/// <returns> Null if it fails, else a pointer to a lua_State. </returns>
 ///-------------------------------------------------------------------------------------------------
-template<typename T>
-static bool check_top( lua_State* l, const T get_check )
+inline lua_State* initialize( const std::string& include_directory = "" )
 {
-    static_assert( std::is_integral<T>::value, "Type T has to be integral" );
-    return top( l ) == static_cast<int32_t>( get_check );
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Check top.
-///
-/// @author ReactiioN
-/// @date 22.12.2016
-///
-/// @tparam T Generic type parameter.
-/// @param [in,out] l    If non-null, the lua_State to process.
-/// @param          mins The mins.
-/// @param          maxs The maxs.
-///
-/// @return True if it succeeds, false if it fails.
-///-------------------------------------------------------------------------------------------------
-template<typename T>
-static bool check_top( lua_State* l, const T mins, const T maxs )
-{
-    static_assert( std::is_integral<T>::value, "Type T has to be integral" );
-    const auto t = top( l );
-    return t >= static_cast<int32_t>( mins ) && t <= static_cast<int32_t>( maxs );
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Export class.
-///
-/// @author ReactiioN
-/// @date 22.12.2016
-///
-/// @param [in,out] l                   If non-null, the lua_State to process.
-/// @param          global_name         Name of the global.
-/// @param          metatable_name      Name of the metatable.
-/// @param          functions_to_export The functions to export.
-///-------------------------------------------------------------------------------------------------
-inline void export_class( lua_State* l, const std::string& global_name, const std::string& metatable_name, const luaL_Reg* functions_to_export )
-{
-    if( !l || global_name.empty() || metatable_name.empty() || !functions_to_export ) {
-        return;
+    if( LUA_VERSION_MAJOR != major_version ) {
+        printf( "[easy_lua] invalid major version: %s\n", LUA_VERSION_MAJOR );
+        return nullptr;
+    }
+    if( LUA_VERSION_MINOR != minor_version ) {
+        printf( "[easy_lua] invalid minor version: %s\n", LUA_VERSION_MINOR );
+        return nullptr;
+    }
+    if( LUA_VERSION_RELEASE != release_version ) {
+        printf( "[easy_lua] invalid release version: %s\n", LUA_VERSION_RELEASE );
+        return nullptr;
+    }
+    
+    auto l = luaL_newstate();
+    if( !l ) {
+        return nullptr;
     }
 
-    luaL_newmetatable( l, metatable_name.c_str() );
-    luaL_setfuncs( l, functions_to_export, 0 );
-    lua_pushvalue( l, -1 );
-    lua_setfield( l, -1, "__index" );
-    lua_setglobal( l, global_name.c_str() );
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Export function.
-///
-/// @author ReactiioN
-/// @date   22.12.2016
-///
-/// @param [in,out] l               If non-null, the lua_State to process.
-/// @param          function_name   Name of the function.
-/// @param          fn              The function.
-///-------------------------------------------------------------------------------------------------
-
-inline void export_function( lua_State* l, const std::string& function_name, lua_CFunction fn )
-{
-    if( !l || function_name.empty() || !fn ) {
-        return;
-    }
-    lua_register( l, function_name.c_str(), fn );
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Closes the given l.
-///
-/// @author ReactiioN
-/// @date 03.01.2017
-///
-/// @param [in,out] l If non-null, the lua_State to process.
-///-------------------------------------------------------------------------------------------------
-inline void close( lua_State** l )
-{
-    if( !l || !*l ) {
-        return;
-    }
-    lua_close( *l );
-    *l = nullptr;
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Opens the given open libs.
-///
-/// @author ReactiioN
-/// @date 22.12.2016
-///
-/// @param open_libs (Optional) The open libs.
-///
-/// @return Null if it fails, else a pointer to a lua_State.
-///-------------------------------------------------------------------------------------------------
-inline lua_State* open( const bool open_libs = true )
-{
-    auto* l = luaL_newstate();
-    if( open_libs ) {
-        luaL_openlibs( l );
+    auto cur_version = lua_version( l );
+    if( !cur_version ) {
+        lua_close( l );
+        return nullptr;
     }
 
-    export_function( l, "include", []( lua_State* L ) -> int32_t {
-        auto get_current_directory = []( const std::string& appended_file ) -> std::string
-        {
-            auto path = lua_script_directory;
-            if( path.back() != '\\' ) {
-                path.append( "\\" );
+    /// be sure that we're really using the correct version!
+    if( *cur_version != supported_version_number ) {
+        lua_close( l );
+        return nullptr;
+    }
+
+    luaL_openlibs( l );
+    if( !include_directory.empty() ) {
+        get_directory().assign( include_directory );
+        export_function( l, "include", []( lua_State* L ) -> int32_t {
+            auto get_current_directory = []( const std::string& appended_file ) -> std::string
+            {
+                auto path = get_directory();
+                if( path.back() != '\\' ) {
+                    path.append( "\\" );
+                }
+                if( !appended_file.empty() ) {
+                    path.append( appended_file );
+                }
+                return path;
+            };
+
+            const auto* c = luaL_checkstring( L, 1 );
+            if( c == nullptr
+                || luaL_loadfile( L, get_current_directory( c ).c_str() )
+                || lua_pcall( L, 0, 0, 0 ) ) {
+                printf( "[easy_lua] error including lua file: %s", get_string( L, -1 ) );
             }
-            if( !appended_file.empty() ) {
-                path.append( appended_file );
-            }
-            return path;
-        };
-
-        const auto* c = luaL_checkstring( L, 1 );
-        if( c == nullptr
-            || luaL_loadfile( L, get_current_directory( c ).c_str() )
-            || lua_pcall( L, 0, 0, 0 ) ) {
-            printf( "Error executing lua: %s", get_string( L, -1 ) );
-        }
-        return 0;
-    } );
+            return 0;
+        } );
+    }
     return l;
 }
 
-///-------------------------------------------------------------------------------------------------
-/// Creates a new userdata.
-///
-/// @author ReactiioN
-/// @date 22.12.2016
-///
-/// @tparam T Generic type parameter.
-/// @param [in,out] l If non-null, the lua_State to process.
-///
-/// @return Null if it fails, else a handle to a T.
-///-------------------------------------------------------------------------------------------------
-template<typename T>
-static T** new_userdata( lua_State* l )
-{
-    return l ? reinterpret_cast<T**>( lua_newuserdata( l, sizeof( T* ) ) ) : nullptr;
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Pushes an userdata.
-///
-/// @author ReactiioN
-/// @date 22.12.2016
-///
-/// @tparam N Type of the n.
-/// @tparam T Generic type parameter.
-/// @param [in,out] l             If non-null, the lua_State to process.
-/// @param          userdata_name Name of the userdata.
-/// @param          userdata      The userdata.
-///
-/// @return An int32_t.
-///-------------------------------------------------------------------------------------------------
-template<typename T, int32_t N = 1>
-static int32_t push_userdata( lua_State* l, const std::string& userdata_name, const T* userdata )
-{
-    if( !l || userdata_name.empty() || !userdata ) {
-        return 0;
-    }
-
-    auto** push_data = new_userdata<T>( l );
-    if( !push_data ) {
-        return 0;
-    }
-    *push_data = const_cast<T*>( userdata );
-
-    luaL_getmetatable( l, userdata_name.c_str() );
-    lua_setmetatable( l, -2 );
-
-    return N;
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Gets user data.
-///
-/// @author ReactiioN
-/// @date 22.12.2016
-///
-/// @tparam T Generic type parameter.
-/// @param [in,out] l              If non-null, the lua_State to process.
-/// @param          stack          The stack.
-/// @param          metatable_name Name of the metatable.
-///
-/// @return Null if it fails, else the user data.
-///-------------------------------------------------------------------------------------------------
-template<typename T>
-static T* get_user_data( lua_State* l, const int32_t stack, const std::string& metatable_name )
-{
-    if( !l || metatable_name.empty() || !is_user_data( l, stack ) ) {
-        return nullptr;
-    }
-    return *reinterpret_cast<T**>( luaL_checkudata( l, stack, metatable_name.c_str() ) );
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Deletes the user data.
-///
-/// @author ReactiioN
-/// @date 22.12.2016
-///
-/// @tparam T Generic type parameter.
-/// @param [in,out] l              If non-null, the lua_State to process.
-/// @param          stack          The stack.
-/// @param          metatable_name Name of the metatable.
-///
-/// @return An int32_t.
-///-------------------------------------------------------------------------------------------------
-template<typename T>
-int32_t delete_user_data( lua_State* l, const int32_t stack, const std::string& metatable_name )
-{
-    if( !is_user_data( l, stack ) || metatable_name.empty() ) {
-        return 0;
-    }
-
-    auto* userdata = get_user_data<T>( l, stack, metatable_name );
-    if( userdata ) {
-        delete userdata;
-        userdata = nullptr;
-    }
-    return 0;
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Sets a global.
-///
-/// @author ReactiioN
-/// @date 18.02.2017
-///
-/// @param [in,out] l           If non-null, the lua_State to process.
-/// @param          global_name Name of the global.
-///-------------------------------------------------------------------------------------------------
-inline void set_global( lua_State* l, const std::string& global_name )
-{
-    if( !global_name.empty() ) {
-        lua_setglobal( l, global_name.c_str() );
-    }
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Sets global bool.
-///
-/// @author ReactiioN
-/// @date 18.02.2017
-///
-/// @param [in,out] l           If non-null, the lua_State to process.
-/// @param          global_name Name of the global.
-/// @param          value       The value.
-///-------------------------------------------------------------------------------------------------
-inline void set_global_bool( lua_State* l, const std::string& global_name, const bool value )
-{
-    push_bool( l, value );
-    set_global( l, global_name );
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Sets global string.
-///
-/// @author ReactiioN
-/// @date 18.02.2017
-///
-/// @param [in,out] l           If non-null, the lua_State to process.
-/// @param          global_name Name of the global.
-/// @param          value       The value.
-///-------------------------------------------------------------------------------------------------
-inline void set_global_string( lua_State* l, const std::string& global_name, const std::string& value )
-{
-    push_string( l, value );
-    set_global( l, global_name );
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Sets global number.
-///
-/// @author ReactiioN
-/// @date 18.02.2017
-///
-/// @tparam T Generic type parameter.
-/// @param [in,out] l           If non-null, the lua_State to process.
-/// @param          global_name Name of the global.
-/// @param          value       The value.
-///-------------------------------------------------------------------------------------------------
-template<typename T>
-static void set_global_number( lua_State* l, const std::string& global_name, const T value )
-{
-    push_number( l, value );
-    set_global( l, global_name );
-}
-
-///-------------------------------------------------------------------------------------------------
-/// Sets global integer.
-///
-/// @author ReactiioN
-/// @date 18.02.2017
-///
-/// @tparam T Generic type parameter.
-/// @param [in,out] l           If non-null, the lua_State to process.
-/// @param          global_name Name of the global.
-/// @param          value       The value.
-///-------------------------------------------------------------------------------------------------
-
-template<typename T>
-static void set_global_integer( lua_State* l, const std::string& global_name, const T value )
-{
-    push_int( l, value );
-    set_global( l, global_name );
-}
 }
 
 #endif
+///-------------------------------------------------------------------------------------------------
+/// End of easy_lua.hpp
+///-------------------------------------------------------------------------------------------------
