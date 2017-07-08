@@ -327,27 +327,35 @@ inline bool get_bool(
 ///-------------------------------------------------------------------------------------------------
 /// <summary> Gets an userdata. </summary>
 ///
-/// <remarks> ReactiioN, 06.07.2017. </remarks>
+/// <remarks> ReactiioN, 08.07.2017. </remarks>
 ///
 /// <typeparam name="T"> Generic type parameter. </typeparam>
-/// <param name="l">         [in,out] If non-null, a lua_State to process. </param>
-/// <param name="stackpos">  The stackpos. </param>
-/// <param name="pop_value"> (Optional) True to pop value. </param>
+/// <param name="l">              [in,out] If non-null, a lua_State to process. </param>
+/// <param name="stackpos">       The stackpos. </param>
+/// <param name="metatable_name"> Name of the metatable. </param>
+/// <param name="pop_value">      (Optional) True to pop value. </param>
 ///
 /// <returns> Null if it fails, else the userdata. </returns>
 ///-------------------------------------------------------------------------------------------------
 template<typename T>
 T* get_userdata(
     lua_State* l,
-    const int32_t stackpos,
-    const bool    pop_value = false )
+    const int32_t      stackpos,
+    const std::string& metatable_name,
+    const bool         pop_value = false )
 {
-    if( is_userdata( l, stackpos ) ) {
-        auto v = lua_touserdata( l, stackpos );
-        if( pop_value ) {
-            lua_pop( l, 1 );
+    if( !metatable_name.empty() && is_userdata( l, stackpos ) ) {
+        auto v = luaL_checkudata( 
+            l, 
+            stackpos, 
+            metatable_name.data() 
+        );
+        if( v ) {
+            if( pop_value ) {
+                lua_pop( l, 1 );
+            }
+            return *reinterpret_cast<T**>( v );
         }
-        return reinterpret_cast<T*>( v );
     }
     return nullptr;
 }
