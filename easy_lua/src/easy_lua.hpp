@@ -40,7 +40,11 @@
 /// SOFTWARE.
 ///-------------------------------------------------------------------------------------------------
 #pragma once
+#if defined(EASY_LUA_STATIC)
+#include "LuaJIT/lua.hpp"
+#else
 #include <lua.hpp>
+#endif
 #include <array>
 #include <string>
 #include <string_view>
