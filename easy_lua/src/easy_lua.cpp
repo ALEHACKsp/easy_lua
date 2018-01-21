@@ -131,6 +131,22 @@ bool easy_lua::get_bool(
     return v;
 }
 
+bool easy_lua::check_stack(
+    const int32_t      begin_stackpos,
+    const int32_t      end_stackpos,
+    const CheckStackFn callback ) const
+{
+    if( callback ) {
+        for( auto i = begin_stackpos; i <= end_stackpos; ++i ) {
+            if( !callback( this, i ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
 const char* easy_lua::get_string(
     const int32_t stackpos,
     const bool    pop_value ) const

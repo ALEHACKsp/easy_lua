@@ -90,6 +90,7 @@ class easy_lua
 {
 public:
     using MetaTableArray = std::array<std::string_view, 2>;
+    using CheckStackFn = bool( *)( const easy_lua*, int32_t );
 
     enum EState : uint8_t
     {
@@ -286,6 +287,22 @@ public:
         int32_t stackpos,
         bool    default_value = false,
         bool    pop_value = false ) const;
+
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary> Check stack range. </summary>
+    ///
+    /// <remarks> ReactiioN, 21.01.2018. </remarks>
+    ///
+    /// <param name="begin_stackpos"> The begin stackpos. </param>
+    /// <param name="end_stackpos">   The end stackpos. </param>
+    /// <param name="callback">       [in,out] If non-null, the callback. </param>
+    ///
+    /// <returns> True if it succeeds, false if it fails. </returns>
+    ///-------------------------------------------------------------------------------------------------
+    bool check_stack(
+        int32_t begin_stackpos,
+        int32_t end_stackpos,
+        CheckStackFn callback ) const;
 
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   Gets a string. </summary>
