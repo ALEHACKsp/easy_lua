@@ -73,25 +73,25 @@
     <OutDir>$(SolutionDir)build\$(Configuration)-$(PlatformTarget)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)-$(PlatformTarget)\tmp\$(ProjectName)\</IntDir>
     <LibraryPath>$(ProjectDir)contrib\LuaJIT\lib\x86;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir)contrib\LuaJIT\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src\LuaJIT;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)build\$(Configuration)-$(PlatformTarget)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)-$(PlatformTarget)\tmp\$(ProjectName)\</IntDir>
     <LibraryPath>$(ProjectDir)contrib\LuaJIT\lib\x86;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir)contrib\LuaJIT\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src\LuaJIT;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)build\$(Configuration)-$(PlatformTarget)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)-$(PlatformTarget)\tmp\$(ProjectName)\</IntDir>
     <LibraryPath>$(ProjectDir)contrib\LuaJIT\lib\x64;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir)contrib\LuaJIT\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src\LuaJIT;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)build\$(Configuration)-$(PlatformTarget)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)-$(PlatformTarget)\tmp\$(ProjectName)\</IntDir>
     <LibraryPath>$(ProjectDir)contrib\LuaJIT\lib\x64;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir)contrib\LuaJIT\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src\LuaJIT;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
