@@ -63,9 +63,9 @@
 #endif
 
 #if !defined(EASY_LUA_CREATE_METATABLE_DATA)
-#define EASY_LUA_CREATE_METATABLE_DATA(name, global) static easy_lua::MetaTableArray name = { \
-    global,                                                                                   \
-    #name                                                                                     \
+#define EASY_LUA_CREATE_METATABLE_DATA(global) static easy_lua::MetaTableArray lua_##global = { \
+    #global,                                                                                   \
+    "lua_"#global                                                                                \
     }
 #endif
 
