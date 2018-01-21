@@ -285,9 +285,13 @@ const easy_lua* easy_lua::push_string(
     return this;
 }
 
-const easy_lua* easy_lua::push_nil() const
+const easy_lua* easy_lua::push_nil(
+    int32_t count ) const
 {
-    lua_pushnil( EASY_LUA_CAST_LUA( this ) );
+    for( auto i = 0; i < count; ++i ) {
+        lua_pushnil( EASY_LUA_CAST_LUA( this ) );
+    }
+    
     return this;
 }
 
@@ -300,6 +304,13 @@ int32_t easy_lua::destroy_userdata(
         delete data;
     }
     return 0;
+}
+
+int32_t easy_lua::destroy_userdata(
+    const int32_t         stackpos,
+    const MetaTableArray& metatable ) const
+{
+    return destroy_userdata( stackpos, metatable[ 1 ] );
 }
 
 int32_t easy_lua::top() const

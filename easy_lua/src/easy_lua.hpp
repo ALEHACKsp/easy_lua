@@ -3,7 +3,7 @@
 /// Created:            18.02.2017
 /// 
 /// Last modified by:   ReactiioN
-/// Last modified on:   18.01.2018
+/// Last modified on:   21.01.2018
 ///-------------------------------------------------------------------------------------------------
 ///     Copyright (c) ReactiioN <https://reactiion.pw>. All rights reserved.
 ///-------------------------------------------------------------------------------------------------
@@ -154,23 +154,6 @@ private:
         /// </summary>
         FnCallback  callback;
     }LuaCFunc;
-
-    /// <summary> 
-    /// The supported version number. 
-    /// </summary>
-    constexpr static double supported_version_number = 503;
-    /// <summary> 
-    /// The major version. 
-    /// </summary>
-    constexpr static auto   major_version            = 5;
-    /// <summary> 
-    /// The minor version. 
-    /// </summary>
-    constexpr static auto   minor_version            = 3;
-    /// <summary> 
-    /// The release version. 
-    /// </summary>
-    constexpr static auto   release_version          = 3;
 
 protected:
     easy_lua() = default;
@@ -472,13 +455,16 @@ public:
         const std::string_view& str ) const;
 
     ///-------------------------------------------------------------------------------------------------
-    /// <summary>   Pushes the nil. </summary>
+    /// <summary> Pushes a nil. </summary>
     ///
-    /// <remarks>   ReactiioN, 18.01.2018. </remarks>
+    /// <remarks> ReactiioN, 19.01.2018. </remarks>
     ///
-    /// <returns>   Null if it fails, else a pointer to a const easy_lua. </returns>
+    /// <param name="count"> (Optional) Amount of nils. </param>
+    ///
+    /// <returns> Null if it fails, else a pointer to a const easy_lua. </returns>
     ///-------------------------------------------------------------------------------------------------
-    const easy_lua* push_nil() const;
+    const easy_lua* push_nil(
+        int32_t count = 1 ) const;
 
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   Destroys the userdata. </summary>
@@ -495,16 +481,30 @@ public:
         const std::string_view& name ) const;
 
     ///-------------------------------------------------------------------------------------------------
+    /// <summary> Destroys the userdata. </summary>
+    ///
+    /// <remarks> ReactiioN, 19.01.2018. </remarks>
+    ///
+    /// <param name="stackpos">  The stackpos. </param>
+    /// <param name="metatable"> The metatable. </param>
+    ///
+    /// <returns> An int32_t. </returns>
+    ///-------------------------------------------------------------------------------------------------
+    int32_t destroy_userdata(
+        int32_t               stackpos,
+        const MetaTableArray& metatable ) const;
+
+    ///-------------------------------------------------------------------------------------------------
     /// <summary>   Pushed the given value. </summary>
     ///
-    /// <remarks>   ReactiioN, 18.01.2018. </remarks>
+    /// <remarks>   ReactiioN, 21.01.2018. </remarks>
     ///
-    /// <param name="val">  The value. </param>
+    /// <param name="val">  (Optional) The value. </param>
     ///
     /// <returns>   An int32_t. </returns>
     ///-------------------------------------------------------------------------------------------------
     int32_t pushed(
-        int32_t val ) const;
+        int32_t val = 1 ) const;
 
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   Gets the top. </summary>
@@ -578,6 +578,22 @@ public:
     const easy_lua* push_userdata(
         const std::string_view& name,
         T*                      data ) const;
+
+    ///-------------------------------------------------------------------------------------------------
+    /// <summary> Pushes an userdata. </summary>
+    ///
+    /// <remarks> ReactiioN, 19.01.2018. </remarks>
+    ///
+    /// <typeparam name="T"> Generic type parameter. </typeparam>
+    /// <param name="metatable"> The metatable. </param>
+    /// <param name="data">      [in,out] If non-null, the data. </param>
+    ///
+    /// <returns> Null if it fails, else a pointer to a const easy_lua. </returns>
+    ///-------------------------------------------------------------------------------------------------
+    template<typename T>
+    const easy_lua* push_userdata(
+        const MetaTableArray& metatable,
+        T*                    data ) const;
 
     ///-------------------------------------------------------------------------------------------------
     /// <summary>   Gets a number. </summary>
@@ -684,6 +700,14 @@ const easy_lua* easy_lua::push_userdata(
         }
     }
     return nullptr;
+}
+
+template<typename T>
+const easy_lua* easy_lua::push_userdata(
+    const MetaTableArray& metatable,
+    T*                    data ) const
+{
+    return push_userdata( metatable[ 1 ], data );
 }
 
 template<typename T>
